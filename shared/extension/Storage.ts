@@ -8,7 +8,7 @@ import { Logger } from './Logger';
 
 @EnumerableMethods
 export class Storage implements chrome.storage.StorageArea {
-  public readonly QUOTA_BYTES: number; // Example: local = 5MB, sync = 100KB
+  public readonly QUOTA_BYTES = 10485760; // Example: local = 5MB, sync = 100KB
 
   public readonly onChanged = new ChromeEvent<(changes: Record<string, chrome.storage.StorageChange>, areaName: chrome.storage.AreaName) => void>();
 
@@ -23,13 +23,13 @@ export class Storage implements chrome.storage.StorageArea {
     this.#logger = logger;
     this.STORAGE_KEY = `${this.#extension.getName()}::${this.area}`;
 
-    if (this.area === 'local') {
-      this.QUOTA_BYTES = 5 * 1024 * 1024; // 5MB
-    } else if (this.area === 'sync') {
-      this.QUOTA_BYTES = 100 * 1024; // 100KB
-    } else {
-      this.QUOTA_BYTES = 1024; // 1KB
-    }
+    // if (this.area === 'local') {
+    //   this.QUOTA_BYTES = 5 * 1024 * 1024; // 5MB
+    // } else if (this.area === 'sync') {
+    //   this.QUOTA_BYTES = 100 * 1024; // 100KB
+    // } else {
+    //   this.QUOTA_BYTES = 1024; // 1KB
+    // }
   }
 
   async get<T = Record<string, unknown>>(
@@ -190,11 +190,13 @@ type NoInferX<T> = T[][T extends unknown ? 0 : never];
 
 export class SyncStorage extends Storage implements chrome.storage.SyncStorageArea {
   // Fake values
+  /** @ts-expect-error override value */
+  public readonly QUOTA_BYTES = 102400;
   public readonly QUOTA_BYTES_PER_ITEM = 8192;
   public readonly MAX_ITEMS = 512;
-  public readonly MAX_WRITE_OPERATIONS_PER_HOUR = 10000;
-  public readonly MAX_WRITE_OPERATIONS_PER_MINUTE = 200;
-  public readonly MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE = 10;
+  public readonly MAX_WRITE_OPERATIONS_PER_HOUR = 1800;
+  public readonly MAX_WRITE_OPERATIONS_PER_MINUTE = 120;
+  public readonly MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE = 1000000;
   public readonly MAX_SUSTAINED_READ_OPERATIONS_PER_MINUTE = 10;
 
   constructor(extension: Extension, logger: Logger) {
