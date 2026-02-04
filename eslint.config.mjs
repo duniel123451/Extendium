@@ -8,7 +8,7 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   { files: ['**/*.{js,mjs,cjs,ts}'] },
-  globalIgnores(['.millennium/', '.venv/', '.extensions/', 'webkit/chromeInjectionContent.js']),
+  globalIgnores(['.millennium/', '.venv/', '.extensions/', 'webkit/chromeInjectionContent.js', './helpers']),
   {
     languageOptions: {
       globals: globals.browser,
@@ -23,7 +23,7 @@ export default defineConfig(
   {
     settings: {
       react: {
-        version: '16.14',
+        version: '19.2',
       },
     },
   },

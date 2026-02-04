@@ -5,9 +5,10 @@
 import { Extension } from '@extension/Extension';
 import { Logger } from '@extension/Logger';
 import { findModule } from '@steambrew/client';
+import { extendiumStyles } from 'components/Styles';
 import { MainWindowPopup, Popup } from 'steam-types/Global/managers/PopupManager';
 import { checkAndEmitInstallEvent } from 'updates/updater';
-import { initMainWindow, MAIN_WINDOW_NAME, pluginDir, WaitForElement } from './shared';
+import { initMainWindow, MAIN_WINDOW_NAME, WaitForElement } from './shared';
 import { patchUrlBar } from './urlBarPatch';
 import { createOptionsWindow, createWindowWithScript } from './windowManagement';
 
@@ -27,7 +28,7 @@ export async function OnPopupCreation(popup: Popup | undefined): Promise<void> {
 async function OnMainWindowCreation(popup: MainWindowPopup): Promise<void> {
   initMainWindow(popup.m_popup);
 
-  await addStyles(popup);
+  addStyles(popup);
 
   const backgroundPromises: Promise<void>[] = [];
   for (const extension of extensions.values()) {
@@ -41,7 +42,7 @@ async function OnMainWindowCreation(popup: MainWindowPopup): Promise<void> {
 }
 
 async function OnTabbedPopupBrowserCreation(popup: Popup): Promise<void> {
-  await addStyles(popup);
+  addStyles(popup);
 
   await patchUrlBar(extensions, popup.m_popup.document);
 
@@ -65,11 +66,9 @@ async function OnTabbedPopupBrowserCreation(popup: Popup): Promise<void> {
   observer.observe(urlBar!.parentElement!, { childList: true, subtree: true });
 }
 
-async function addStyles(popup: Popup): Promise<void> {
-  const folderPath = `${pluginDir.replace(/.*\\([^\\]+)\\([^\\]+)$/, '/$1/$2')}/public`;
-  const cssContent = await fetch(`https://css.millennium.app${folderPath}/extendium.css`).then(async r => r.text());
+function addStyles(popup: Popup): void {
   const style = document.createElement('style');
-  style.textContent = cssContent;
+  style.textContent = extendiumStyles;
   popup.m_popup.document.head.appendChild(style);
 }
 

@@ -12,6 +12,7 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.6",
     "@stylistic/eslint-plugin": "^5.4.0",
+    "@types/bun": "^1.3.8",
     "@types/chrome": "^0.1.24",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
@@ -47,6 +48,6 @@
     "zustand": "^5.0.8"
   },
   "patchedDependencies": {
-    "@steambrew/client@5.8.3": "patches/@steambrew%2Fclient@5.8.0.patch"
+    "@steambrew/client@5.8.3": "patches/@steambrew%2Fclient@5.8.3.patch"
   }
 }
