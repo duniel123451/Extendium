@@ -27,7 +27,6 @@ export function ToolbarManagerContextMenu(): React.JSX.Element {
   return (
     <div style={{ padding: "1rem", width: "18rem" }}>
       <DialogHeader>Extensions</DialogHeader>
-      <div style={{ cursor: "pointer" }}>
         {[...extensions.values()].map((extension) => (
           <ManagerExtensionItem
             key={extension.getName()}
@@ -37,7 +36,6 @@ export function ToolbarManagerContextMenu(): React.JSX.Element {
             unpinExtension={unpinExtension}
           />
         ))}
-      </div>
       <div
         style={{ cursor: "pointer" }}
         onClick={() => openExtensionManagerPopup()}
