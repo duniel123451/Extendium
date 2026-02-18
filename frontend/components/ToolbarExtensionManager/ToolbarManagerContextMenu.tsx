@@ -40,7 +40,7 @@ export function ToolbarManagerContextMenu(): React.JSX.Element {
         style={{ cursor: "pointer" }}
         onClick={() => openExtensionManagerPopup()}
       >
-        <Field icon={<FaCog />} label="Manage extensions test" />
+        <Field icon={<FaCog />} label="Manage extensions" />
       </div>
     </div>
   );
